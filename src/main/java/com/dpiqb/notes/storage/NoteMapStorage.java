@@ -26,7 +26,7 @@ public class NoteMapStorage{
     }
     return filledByMockData;
   }
-  private static Map<String, String> getMockData(){
+  public static Map<String, String> getMockData(){
     Map<String, String> data = new LinkedHashMap<>();
     data.put(
       "Single Responsibility Principle",

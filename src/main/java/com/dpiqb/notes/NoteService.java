@@ -1,6 +1,6 @@
 package com.dpiqb.notes;
 
-import com.dpiqb.notes.storage.NoteMapStorage;
+import com.dpiqb.notes.storage.NoteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -8,34 +8,21 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class NoteService implements NoteCRUD{
-
-  private final NoteMapStorage storage;
-
-  @Override
-  public List<Note> listAll() {
-    return storage.getStorage().values().stream().toList();
+public class NoteService {
+  private final NoteRepository noteRepository;
+  public List<Note> listAll(){
+    return noteRepository.findAll();
+  };
+  public void add(Note note){
+    noteRepository.save(note);
   }
-
-  @Override
-  public Note add(Note note) {
-    note.setId((note.getTitle() + note.getContent()).hashCode());
-    storage.getStorage().put(note.getId(), note);
-    return note;
+  public void deleteById(long id){
+    noteRepository.deleteById(id);
   }
-
-  @Override
-  public void deleteById(long id) {
-    storage.getStorage().remove(id);
+  public void update(Note note){
+    noteRepository.save(note);
   }
-
-  @Override
-  public void update(Note note) {
-    storage.getStorage().put(note.getId(), note);
-  }
-
-  @Override
-  public Note getById(long id) {
-    return storage.getStorage().get(id);
+  public Note getById(long id){
+    return noteRepository.getReferenceById(id);
   }
 }
